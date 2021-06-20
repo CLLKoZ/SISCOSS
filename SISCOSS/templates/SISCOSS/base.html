@@ -3,7 +3,7 @@
 <head>
 	{% load static %}
 	<meta charset="utf-8">
-	<title></title>
+	<title>SISCOSS - Inicio</title>
 	<link rel="stylesheet" href="{% static 'SISCOSS/css/bootstrap.css' %}">
 	<link rel="stylesheet" href="{% static 'SISCOSS/css/estilos_basicos.css' %}">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,800" rel="stylesheet">
@@ -17,7 +17,7 @@
 		</a>
 		<div class="logo_container"><h1>SIS<span>COSS</span></h1></div>
 		<ul class="navigation">
-          <a href="#"><li>Inicio</li></a>
+          <a href="{% url 'Inicio' %}"><li>Inicio</li></a>
           <a href="#"><li>Sobre Nosotros</li></a>
           <a href="#"><li>Contacto</li></a>
         </ul>
