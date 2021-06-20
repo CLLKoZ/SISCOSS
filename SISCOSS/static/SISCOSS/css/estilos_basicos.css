@@ -1,0 +1,102 @@
+*{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-decoration: none;
+  border: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+header{
+  background-color: #D14242;
+  width: 100%;
+  height: 112px;
+  display: block;
+}
+
+.logo{
+  width: 100px;
+  float: left;
+}
+
+.inner_hdr{
+  width: 90%;
+  height: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+.logo_container{
+  height: 100%;
+  display: table;
+  float: left;
+}
+
+.logo_container h1{
+  color: white;
+  height: 100%;
+  display: table-cell;
+  vertical-align: middle;
+  font-family: 'Montserrat';
+  font-size: 32px;
+  font-weight: 200;
+}
+
+.logo_container h1 span{
+  font-weight: 800;
+}
+
+.navigation{
+  float: right;
+  height: 100%;
+}
+
+.navigation a{
+  margin-top: 38px;
+  display: table;
+  float: left;
+  padding: 0px 20px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  transition: 0.5s;
+  color: #EEEEEE;
+  text-align: center;
+}
+
+.navigation a li{
+  display: table-cell;
+  vertical-align: middle;
+  height: 100%;
+  font-family: 'Montserrat';
+  font-size: 16px;
+}
+
+.navigation a:hover{
+  background-color: #EEEEEE;
+  color: #D14242;
+  border-radius: 3px;
+}
+
+@media screen and (max-width: 680px) {
+  
+  header{
+    height: 165px;
+  }
+
+  .navigation{
+    float: left;
+  }
+
+  .navigation a {
+    float: left ;
+    display: block;
+    text-align: left;
+    margin-top: -28px;
+  }
+}
+
+.bd{
+  margin-top: 50px;
+  margin-left: 100px;
+  margin-right: 100px;
+}
