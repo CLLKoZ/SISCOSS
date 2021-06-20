@@ -8,7 +8,7 @@ class Persona(models.Model):
 	dui = models.CharField(validators=[RegexValidator(regex='^[0-9]{8}-?[0-9]{1}$', message='El campo debe tener 10 caracteres y con el formato indicado', code='nomatch')], max_length=10, primary_key=True)
 	nombres = models.CharField(max_length=100)
 	apellidos = models.CharField(max_length=100)
-	telefono = models.CharField(max_length=8,validators=[MinValueValidator(8)])
+	telefono = models.CharField(max_length=8)
 	direccion = models.CharField(max_length=150)
 	email = models.EmailField()
 
@@ -62,7 +62,7 @@ class Solicitud(models.Model):
 	institucion = models.ForeignKey('Institucion', on_delete=models.CASCADE,)
 	facultad_soli = models.ForeignKey('Facultad', on_delete=models.CASCADE,)
 	carrera_soli = models.ForeignKey('Carrera', on_delete=models.CASCADE,)
-	tipo_servi = models.ForeignKey('TipoServicio', on_delete=models.CASCADE,)
-	estado_soli = models.ForeignKey('Carrera', on_delete=models.CASCADE,)
+	tipo_servi_soli = models.ForeignKey('TipoServicio', on_delete=models.CASCADE,)
+	estado_soli = models.ForeignKey('EstadoSolicitud', on_delete=models.CASCADE,)
 	fecha_realizacion = models.DateField(auto_now_add=True)
 	comentario = models.CharField(max_length=500, blank=True)
