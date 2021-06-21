@@ -12,6 +12,9 @@ class Persona(models.Model):
 	direccion = models.CharField(max_length=150)
 	email = models.EmailField()
 
+	class Meta():
+		abstract = True
+
 class Facultad(models.Model):
 	nombre_facu = models.CharField(max_length=100)
 
@@ -32,8 +35,7 @@ class Escuela(models.Model):
 	def __str__(self):
 		return self.nombre_escuela
 
-class Maestro(models.Model):
-	persona = models.ForeignKey('Persona', on_delete=models.CASCADE,)
+class Maestro(Persona):
 	facultad = models.ForeignKey('Facultad', on_delete=models.CASCADE,)
 	carrera = models.ForeignKey('Carrera', on_delete=models.CASCADE,)
 	escuela = models.ForeignKey('Escuela', on_delete=models.CASCADE,)

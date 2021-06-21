@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'Proyecto_DSI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'DB_SISCOSS',
+        'NAME': 'DSI_SISCOSS',
         'HOST': 'localhost',
         'USER': 'postgres',
         'PASSWORD': 'admin123',
