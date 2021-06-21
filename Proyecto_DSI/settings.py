@@ -80,8 +80,8 @@ DATABASES = {
         'NAME': 'DB_SISCOSS',
         'HOST': 'localhost',
         'USER': 'postgres',
-        'PASSWORD': 'admin123',
-        'PORT': 5432,
+        'PASSWORD': 'ss15005',
+        'PORT': 5433,
     }
 }
 
