@@ -65,6 +65,6 @@ class Solicitud(models.Model):
 	facultad_soli = models.ForeignKey('Facultad', on_delete=models.CASCADE,)
 	carrera_soli = models.ForeignKey('Carrera', on_delete=models.CASCADE,)
 	tipo_servi_soli = models.ForeignKey('TipoServicio', on_delete=models.CASCADE,)
-	estado_soli = models.ForeignKey('EstadoSolicitud', on_delete=models.CASCADE,)
+	estado_soli = models.ForeignKey('EstadoSolicitud', default = 1, on_delete=models.CASCADE,)
 	fecha_realizacion = models.DateField(auto_now_add=True)
 	comentario = models.CharField(max_length=500, blank=True)

@@ -29,14 +29,16 @@ class SolicitudForm(forms.ModelForm):
 			'facultad_soli',
 			'carrera_soli',
 			'tipo_servi_soli',
-			'estado_soli',
-			'comentario',
 		]
 
 		labels = {
-			
+			'facultad_soli': 'Seleccione la facultad: ',
+			'carrera_soli': 'Seleccione la carrera: ',
+			'tipo_servi_soli': '¿Qué tipo de servicio social desea?',
 		}
 
 		widgets = {
-			
+			'facultad_soli': forms.Select(attrs={'class': 'form-control'}),
+			'carrera_soli': forms.Select(attrs={'class': 'form-control'}),
+			'tipo_servi_soli': forms.Select(attrs={'class': 'form-control'}),
 		}

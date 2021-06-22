@@ -1,0 +1,49 @@
+{% extends "SISCOSS/base.html" %}
+{% load static %}
+
+{% block title %}SISCOSS - Solicitud{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<h2 style="text-align: center;">Solicitar servicio social</h2>
+
+		<div class="form-group">
+			<form method="post" action="{% url 'Solicitud' %}" id="formSolicitud" style="margin-top: 50px" novalidate>
+				{% csrf_token %}
+            	<div class="form-group">
+                	<label for="{{ form2.nombre_ins.id_for_label }}">{{ form2.nombre_ins.label }}</label>
+                	<div class="">{{ form2.nombre_ins }}</div>
+            	</div>
+            	<br>
+            	<div class="form-group">
+                	<label for="{{ form2.email_ins.id_for_label }}">{{ form2.email_ins.label }}</label>
+                	<div class="">{{ form2.email_ins }}</div>
+            	</div>
+            	<br>
+            	<br>
+            	<div class="form-group">
+                	<label for="{{ form.facultad_soli.id_for_label }}">{{ form.facultad_soli.label }}</label>
+                	<div class="">{{ form.facultad_soli }}</div>
+            	</div>
+            	<br>
+            	<div class="form-group">
+                	<label for="{{ form.carrera_soli.id_for_label }}">{{ form.carrera_soli.label }}</label>
+                	<div class="">{{ form.carrera_soli }}</div>
+            	</div>
+            	<br>
+            	<div class="form-group">
+                	<label for="{{ form.tipo_servi_soli.id_for_label }}">{{ form.tipo_servi_soli.label }}</label>
+                	<div class="">{{ form.tipo_servi_soli }}</div>
+            	</div>
+            	<br>
+            	<br>
+            	<div class="form-group">
+                	<button type="submit" class="btn md cta esp">Guardar</button>
+            	</div>
+			</form>
+		</div>
+	</div>
+
+	<script src="{% static 'SISCOSS/js/bootstrap.bundle.js' %}"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% endblock %}
