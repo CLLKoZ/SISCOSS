@@ -1,6 +1,6 @@
 from django import forms
 
-from SISCOSS.models import Institucion, Facultad, Carrera, Solicitud, TipoServicio
+from SISCOSS.models import Institucion, Facultad, Carrera, Solicitud, TipoServicio, EstadoSolicitud
 
 class InstitucionForm(forms.ModelForm):
 	class Meta:
@@ -41,4 +41,20 @@ class SolicitudForm(forms.ModelForm):
 			'facultad_soli': forms.Select(attrs={'class': 'form-control'}),
 			'carrera_soli': forms.Select(attrs={'class': 'form-control'}),
 			'tipo_servi_soli': forms.Select(attrs={'class': 'form-control'}),
+		}
+
+class EvaluarSolicitudForm(forms.ModelForm):
+	class Meta:
+		model = EstadoSolicitud
+
+		fields = [
+			'nombre_estado_soli',
+		]
+
+		labels = {
+			'nombre_estado_soli': 'Estado de solicitud',
+		}
+
+		widgets = {
+			'nombre_estado_soli': forms.TextInput(attrs={'class':'form-control'}),
 		}

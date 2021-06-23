@@ -45,3 +45,7 @@ class SolicitudCrear(CreateView):
 			return HttpResponseRedirect(self.get_success_url())
 		else:
 			return self.render_to_response(self.get_context_data(form=form, form2=form2))
+
+class ver_solicitudes_recibidas(ListView):
+	model = Solicitud
+	template_name= 'SISCOSS/ver_solicitudes_recibidas.html'
