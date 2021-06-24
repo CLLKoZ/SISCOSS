@@ -4,7 +4,7 @@ from django.views.generic.edit import CreateView
 from django.db.models import Q
 from django.contrib import messages
 from SISCOSS.forms import InstitucionForm, SolicitudForm
-from SISCOSS.models import Solicitud, Escuela, Carrera, Facultad, TipoServicio
+from SISCOSS.models import Solicitud, Escuela, Carrera, Facultad, TipoServicio, Maestro
 
 # Create your views here.
 
@@ -18,6 +18,10 @@ class ver_estado_solicitud(ListView):
 class asignar_encargado_escuela(ListView):
 	model = Escuela
 	template_name= 'SISCOSS/asignar_encargado_escuela.html'
+
+class asignar_encargado_escuela_seleccionar(ListView):
+	model = Maestro
+	template_name= 'SISCOSS/asignar_encargado_escuela_seleccionar.html'
 
 class SolicitudCrear(CreateView):
 	model = Solicitud

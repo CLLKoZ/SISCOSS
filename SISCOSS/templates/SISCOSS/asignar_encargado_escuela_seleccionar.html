@@ -1,0 +1,59 @@
+{% extends "SISCOSS/base.html" %}
+{% load static %}
+
+{% block title %}SISCOSS - Seleccionar encargado{% endblock %}
+
+{% block content %}
+
+<body>
+    <div class="container py-5">
+        
+      <h3>Seleccionar encargado</h3></br>
+
+      <div>
+        <table class="table py-5">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Escuela</th>
+              <th scope="col">Carrera</th>
+              <th scope="col">Nombres</th>
+              <th scope="col">Apellidos</th>
+              <th scope="col">Especialidad</th>
+              <th scope="col">Disponibilidad</th>
+              <th scope="col">Acción</th>              
+            </tr>
+          </thead>
+          <tbody>
+            {% if object_list %}
+            {% for maestro in object_list %}
+            <tr>   
+              <td>{{ maestro.escuela }}</td>
+              <td>{{ maestro.carrera }}</td>
+              <td>{{ maestro.nombres }}</td>
+              <td>{{ maestro.apellidos }}</td>
+              <td>{{ maestro.especialidad }}</td>
+              <td>{{ maestro.disponibilidad }}</td>
+              <td><a type="button" class="btn btn-dark btn-sm btn-primary" href=""> Asignar</a></td>
+            </tr>
+            {% endfor %}
+              
+            {% else %}
+            <div class="alert alert-danger" role="alert">                
+              No hay registros de maestros para mostrar                               	
+            </div>
+
+            {% endif %}
+          </tbody>
+        </table>
+
+        </br>
+        </br>
+        <a href="{% url 'AsignarEncargadoEscuela' %}" class="btn btn-secondary">Cancelar</a>
+      </div>
+
+    </div>
+</body>
+
+<script src="{% static 'SISCOSS/js/bootstrap.bundle.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% endblock %}
