@@ -9,22 +9,19 @@
 	<link rel="stylesheet" href="{% static 'SISCOSS/css/bootstrap.css' %}">
 	<link rel="stylesheet" href="{% static 'SISCOSS/css/estilos_basicos.css' %}">
 	<link rel="stylesheet" href="{% static 'SISCOSS/css/Buttom-style.css' %}">
+	<link rel="stylesheet" href="{% static 'SISCOSS/css/inicio.css' %}">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,800" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </head>
 <header>
 	<div class="inner_hdr">
-		<a href="#">
+		<a href="{% url 'Inicio' %}">
 			<img class="logo" src="{% static 'SISCOSS/imagenes/UES_logo2.png' %}">
 		</a>
 		<div class="logo_container"><h1>SIS<span>COSS</span></h1></div>
 		<ul class="navigation">
           <a href="{% url 'Inicio' %}"><li>Inicio</li></a>
-          <a href="{% url 'EstadoSolicitud' %}"><li>Estado de Solicitud</li></a>
-          <a href="{% url 'Solicitud' %}"><li>Solicitar servicio social</li></a>
-          <a href="{% url 'SolicitudesRecibidas' %}"><li>Ver solicitudes recibidas</li></a>
-		  <a href="{% url 'AsignarEncargadoEscuela' %}"><li>Asignar encargado por escuela</li></a>
         </ul>
 	</div>
 </header>

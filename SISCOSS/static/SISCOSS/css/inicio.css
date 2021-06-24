@@ -1,0 +1,48 @@
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.bttn{
+  text-align: center;
+  width: 15%;
+  height: 15%;
+}
+
+.bttn:hover{
+  text-decoration: none;
+  color: #FFFFFF;
+}
+
+.away{
+  margin-left: 125px;
+}
+
+.tal{
+  margin-top: 50%;
+  margin-bottom: 50%;
+  font-size: 1.8rem;
+}
+
+.tal2{
+  margin-top: 50%;
+  margin-bottom: 34.25%;
+  font-size: 1.8rem;
+}
+
+.tal3{
+  margin-top: 50%;
+  margin-bottom: 47.25%;
+  font-size: 1.8rem;
+}
+
+.tama{
+  width: 150%;
+  margin-top: 50px;
+  margin-bottom: 25px;
+  margin-left:4%;
+}
+
+.disabled {
+  overflow-x: hidden;
+}

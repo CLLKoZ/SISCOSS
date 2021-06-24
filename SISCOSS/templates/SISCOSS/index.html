@@ -5,14 +5,18 @@
 
 	{% block content %}
 	
-	<h2>Inicio</h2>
+	<h2 style="text-align:center; padding-top: 10px;">Inicio</h2>
+	<div class="row tama disable">
+        <a href="{% url 'EstadoSolicitud' %}" class="md ctao bttn" style="text-decoration: none;"><p class="tal">Ver todas las solicitudes</p></a>
+        <a href="{% url 'AsignarEncargadoEscuela' %}" class="btn md ctao bttn away"><p class="tal2">Asignar encargado de servicio social por escuela</p></a>
+        <a href="{% url 'Solicitud' %}" class="btn md ctao bttn away"><p class="tal3">Realizar una solicitud</p></a>
+    </div>
 
-	<h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h3>
+    <div class="row tama">
+        <a href="{% url 'SolicitudesRecibidas' %}" class="md ctao bttn" style="text-decoration: none;"><p class="tal">Ver solicitudes recibidas</p></a>
+        <a href="{% url 'ver_estado_soli' %}" class="btn md ctao bttn away"><p class="tal2">Verificar el estado de mi solicitud</p></a>
+        <a href="#" class="btn md ctao bttn away"><p class="tal3">En espera de mas vistas</p></a>
+    </div>
 	<script src="{% static 'SISCOSS/js/bootstrap.bundle.js' %}"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	{% endblock %}
