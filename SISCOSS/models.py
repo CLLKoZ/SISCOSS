@@ -46,6 +46,9 @@ class Institucion(models.Model):
 	nombre_ins = models.CharField(max_length=100)
 	email_ins = models.EmailField()
 
+	def __str__(self):
+		return '{} '' {}'.format(self.nombre_ins, self. email_ins)
+
 class TipoServicio(models.Model):
 	carrera_tipo = models.ForeignKey('Carrera', on_delete=models.CASCADE,)
 	nombre_servi = models.CharField(max_length=100)

@@ -1,14 +1,14 @@
 {% extends "SISCOSS/base.html" %}
-{% load static %}
-
 {% block title %}SISCOSS - Solicitud{% endblock %}
 
 {% block content %}
+{% load widget_tweaks %}
+{% load static %}
 	<div class="container">
 		<h2 style="text-align: center;">Solicitar servicio social</h2>
 
 		<div class="form-group">
-			<form method="post" action="{% url 'Solicitud' %}" id="formSolicitud" style="margin-top: 50px" novalidate>
+			<form method="post" action="{% url 'Solicitud' %}" id="formSolicitud" style="margin-top: 50px" data-carrera-url="{% url 'ajax_cargar_carrera' %}" data-tipo-url="{% url 'ajax_cargar_tipo' %}" novalidate>
 				{% csrf_token %}
             	<div class="form-group">
                 	<label for="{{ form2.nombre_ins.id_for_label }}">{{ form2.nombre_ins.label }}</label>
@@ -21,24 +21,18 @@
             	</div>
             	<br>
             	<br>
-            	<div class="form-group">
-                	<label for="{{ form.facultad_soli.id_for_label }}">{{ form.facultad_soli.label }}</label>
-                	<div class="">{{ form.facultad_soli }}</div>
-            	</div>
-            	<br>
-            	<div class="form-group">
-                	<label for="{{ form.carrera_soli.id_for_label }}">{{ form.carrera_soli.label }}</label>
-                	<div class="">{{ form.carrera_soli }}</div>
-            	</div>
-            	<br>
-            	<div class="form-group">
-                	<label for="{{ form.tipo_servi_soli.id_for_label }}">{{ form.tipo_servi_soli.label }}</label>
-                	<div class="">{{ form.tipo_servi_soli }}</div>
-            	</div>
+            	{% for field in form.visible_fields %}
+                	{% for error in field.errors %}
+                    	<p class="help_block">{{ error }}</p>
+                	{% endfor %}
+                	<label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                	{{ field|add_class:'form-control tam' }}
+                	<br>
+            	{% endfor %}
             	<br>
             	<br>
             	<div class="form-group">
-                	<button type="submit" class="btn md cta esp">Guardar</button>
+                	<p style="text-align:center;"><button type="submit" class="btn_trns mid ctao esp">Guardar</button></p>
             	</div>
 			</form>
 		</div>
@@ -46,4 +40,40 @@
 
 	<script src="{% static 'SISCOSS/js/bootstrap.bundle.js' %}"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	<script>
+		$("#id_facultad_soli").change(function(){
+			const url = $("#formSolicitud").attr("data-carrera-url")
+			const facultadId = $(this).val();
+
+			$.ajax({
+				url: url,
+				data: {
+					'facultad_soli': facultadId
+				},
+				success: function(data){
+					$("#id_carrera_soli").html(data);
+				}
+			});
+		});
+
+		$("#id_carrera_soli").change(function(){
+			$('#formSolicitud').submit();
+			const url = $("#formSolicitud").attr("data-tipo-url")
+			const carreraId = $(this).val();
+
+			$.ajax({
+				url: url,
+				data: {
+					'carrera_soli': carreraId
+				},
+				success: function(data){
+					$("#id_tipo_servi_soli").html(data);
+					if (data.success){
+						$("#id_tipo_servi_soli").load(" #id_tipo_servi_soli");
+    				}
+				}
+			});
+		});
+	</script>
 {% endblock %}

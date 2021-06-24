@@ -1,0 +1,72 @@
+* {
+  box-sizing: border-box;
+}
+
+hr {
+  border-color: #f8baa2;
+  width: 90%;
+}
+
+.rowx {
+  width: 100%;
+  position: relative;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn_trns {
+  display: inline-block;
+  border-radius: 2px;
+  border: none;
+  height: 45px;
+  padding: 0;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.mid {
+  width: 120px;
+}
+
+.ctao {
+  background-color: Transparent;
+  color: #D14242;
+  border: 2px solid #D14242;
+  border-radius: 3px;
+  transition: 0.4s ease;
+}
+.ctao:hover {
+  background-color: #D14242;
+  color: #EEEEEE;
+  transition: 0.4s ease;
+}
+
+@media (max-width: 480px) {
+
+  .mid {
+    width: 75px;
+  }
+
+}
+
+.btncancel{
+  padding: 12px;
+  padding-right: 30px;
+  padding-left: 30px;
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.btncancel:hover{
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.mensajito{
+  color: #D14242;
+  font-size: 12px;
+}
+
+.td_title{
+  font-weight: bold;
+}

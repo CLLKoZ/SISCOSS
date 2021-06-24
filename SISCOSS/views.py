@@ -1,8 +1,10 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse,HttpResponseRedirect
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView
+from django.db.models import Q
+from django.contrib import messages
 from SISCOSS.forms import InstitucionForm, SolicitudForm
-from SISCOSS.models import Solicitud, Escuela
+from SISCOSS.models import Solicitud, Escuela, Carrera, Facultad, TipoServicio
 
 # Create your views here.
 
@@ -22,7 +24,7 @@ class SolicitudCrear(CreateView):
 	template_name = 'SISCOSS/solicitud.html'
 	form_class = SolicitudForm
 	second_form_class = InstitucionForm
-	success_url = ''
+	success_url = '/'
 
 	def get_context_data(self, **kwargs):
 		context = super(SolicitudCrear, self).get_context_data(**kwargs)
@@ -48,3 +50,29 @@ class SolicitudCrear(CreateView):
 class ver_solicitudes_recibidas(ListView):
 	model = Solicitud
 	template_name= 'SISCOSS/ver_solicitudes_recibidas.html'
+
+def cargar_carrera(request):
+	facultad_id = request.GET.get('facultad_soli')
+	carreras = Carrera.objects.filter(facultad_carrera_id=facultad_id).order_by('nombre_carrera')
+	return render(request, 'SISCOSS/carreras_drop_list.html', {'carreras': carreras})
+
+def cargar_tipo(request):
+	carrera_id = request.GET.get('carrera_soli')
+	tipos = TipoServicio.objects.filter(carrera_tipo_id=carrera_id).order_by('nombre_servi')
+	return render(request, 'SISCOSS/tipo_drop_list.html', {'tipos': tipos})
+
+def ver_estado(request):
+	if request.method=='POST':
+		buscar = request.POST['bscr']
+
+		if buscar:
+			match = Solicitud.objects.filter(Q(institucion__email_ins=buscar))
+
+			if match:
+				return render(request, 'SISCOSS/ver_estado.html', {'br': match})
+			else:
+				messages.error(request, 'No hay Solicitudes que coinsidan con el Email.')
+		else:
+			return HttpResponseRedirect('/ver_estado_soli/')
+
+	return render(request, 'SISCOSS/ver_estado.html')

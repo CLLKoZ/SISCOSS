@@ -1,0 +1,4 @@
+<option value="">-------------</option>
+{% for carrera in carreras %}
+	<option value="{{ carrera.pk }}">{{ carrera.nombre_carrera }}</option>
+{% endfor %}

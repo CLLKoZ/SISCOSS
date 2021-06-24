@@ -1,0 +1,72 @@
+{% extends "SISCOSS/base.html" %}
+{% load static %}
+
+{% block title %}SISCOSS - Estado de Solicitud{% endblock %}
+
+{% block content %}
+{% load widget_tweaks %}
+	<div class="container">
+		<h2 class="text-center">Ver estado de mi solicitud</h2>
+		<br>
+		<br>
+		<div class="form-group">
+			<form method="post" action="/ver_estado_soli/">
+				{% csrf_token %}
+            	<div class="col-lg-5">
+            		<input type="text" name="bscr" class="form-control" placeholder="Ingrese su email para buscar su solicitud">
+            	</div>
+            	<br>
+            	<label class="col-lg-2">
+                	<button type="submit" class="btn_trns mid ctao esp">Buscar</button>
+            	</label>
+			</form>
+			<br>
+			<br>
+
+			<div>
+				{% if messages %}
+				<ul class="messages">
+					{% for k in messages %}
+    					<li style="color: #D14242; font-size: 20px;" class="text-center">{{ k }}</li>
+    				{% endfor %}
+				</ul>
+				{% endif %}
+			</div>
+
+			{% if br %}
+				{% for k in br %}
+					<table border="0px" width="750px">
+						<tr>
+							<td class="td_title">Informacion de la institucion</td>
+							<td>{{ k.institucion }}</td>
+						</tr>
+						<tr>
+							<td class="td_title">Facultad a la que se solicitó</td>
+							<td>{{ k.facultad_soli }}</td>
+						</tr>
+						<tr>
+							<td class="td_title">Carrera a la que se solicitó</td>
+							<td>{{ k.carrera_soli }}</td>
+						</tr>
+						<tr>
+							<td class="td_title">Tipo de solicitud</td>
+							<td>{{ k.tipo_servi_soli }}</td>
+						</tr>
+						<tr>
+							<td class="td_title">Estado de la solicitud</td>
+							<td>{{ k.estado_soli }}</td>
+						</tr>
+						<tr>
+							<td class="td_title">Fecha de la realización</td>
+							<td>{{ k.fecha_realizacion }}</td>
+						</tr>
+						<tr>
+							<td class="td_title">Comentario del evaluador</td>
+							<td>{{ k.comentario }}</td>
+						</tr>
+					</table>
+				{% endfor %}
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}
