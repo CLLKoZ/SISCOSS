@@ -1,0 +1,30 @@
+{% extends "SISCOSS/base.html" %}
+{% load static %}
+
+{% block title %}SISCOSS - Evaluar solicitud{% endblock %}
+
+{% block content %}
+<body>
+    <div class="container py-5">
+    	<h3>Institucion</h3>
+    	<p>{{ solicitud.institucion.nombre_ins }}</p>
+    	<h3>Tipo de servicio</h3>
+    	<p>{{ solicitud.tipo_servi_soli.nombre_servi }}</p>
+    	<h3>Fecha de realizacion</h3>
+    	<p>{{ solicitud.fecha_realizacion }}</p>
+    	<div class="row"><h2 style="color:#FFFFFF">,</h2></div>
+		<div class="row">		
+		<div class="col-3"></div>
+		<div class="col-6">
+		<form method="post">
+			{% csrf_token%}
+			{{ form.as_p }}
+			<h2 style="color:#FFFFFF">,</h2>
+			<button type="submit" align="center" class="btn btn-primary">Guardar</button>
+			
+			<a type="button" align="center" class="btn btn-primary" href="{% url 'SolicitudesRecibidas'%}">Cancelar</a>
+		</form>	
+		</div>
+	</div>
+</div>
+{% endblock %}

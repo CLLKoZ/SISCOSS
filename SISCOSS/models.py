@@ -58,7 +58,7 @@ class TipoServicio(models.Model):
 		return self.nombre_servi
 
 class EstadoSolicitud(models.Model):
-	nombre_estado_soli = models.CharField(max_length=50, default='En proceso')
+	nombre_estado_soli = models.CharField(max_length=50, default='Pendiente')
 
 	def __str__(self):
 		return self.nombre_estado_soli

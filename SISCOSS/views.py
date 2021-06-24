@@ -3,8 +3,9 @@ from django.views.generic import ListView
 from django.views.generic.edit import CreateView
 from django.db.models import Q
 from django.contrib import messages
-from SISCOSS.forms import InstitucionForm, SolicitudForm
-from SISCOSS.models import Solicitud, Escuela, Carrera, Facultad, TipoServicio, Maestro
+from SISCOSS.forms import InstitucionForm, SolicitudForm, EvaluarSolicitudForm
+from SISCOSS.models import Solicitud, Escuela, Carrera, Facultad, TipoServicio, EstadoSolicitud, Maestro
+
 
 # Create your views here.
 
@@ -80,3 +81,21 @@ def ver_estado(request):
 			return HttpResponseRedirect('/ver_estado_soli/')
 
 	return render(request, 'SISCOSS/ver_estado.html')
+
+def formulario_evaluar_solicitud_view(request):
+
+	if request.method=='POST':
+		form = EvaluarSolicitudForm(request.POST)    
+		if form.is_valid():
+			form.save()
+		return redirect('SolicitudesRecibidas')
+	else:
+		form = EvaluarSolicitudForm()
+
+	return render(request, 'SISCOSS/evaluar_solicitud.html', {'form':form})
+
+class formulario_evaluar_solicitud_vista(CreateView):
+	model = EstadoSolicitud 
+	form_class = EvaluarSolicitudForm
+	template_name = 'SISCOSS/evaluar_solicitud.html'
+	success_url = reverse_lazy('SolicitudesRecibidas')
