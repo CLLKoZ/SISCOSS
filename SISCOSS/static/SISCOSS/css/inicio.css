@@ -82,3 +82,8 @@ html, body {
     margin-left: 100px;
   }
 }
+
+.textMAX{
+  width: 500px;
+  height: 200px;
+}

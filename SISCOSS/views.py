@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, HttpResponse,HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.db.models import Q
 from django.contrib import messages
-from SISCOSS.forms import InstitucionForm, SolicitudForm, EvaluarSolicitudForm
+from SISCOSS.forms import InstitucionForm, SolicitudForm, EvaluarSolicitudForm, AEvaluarForm
 from SISCOSS.models import Solicitud, Escuela, Carrera, Facultad, TipoServicio, EstadoSolicitud, Maestro
 
 
@@ -73,7 +73,6 @@ def ver_estado(request):
 
 		if buscar:
 			match = Solicitud.objects.filter(Q(institucion__email_ins=buscar))
-
 			if match:
 				return render(request, 'SISCOSS/ver_estado.html', {'br': match})
 			else:
@@ -95,8 +94,13 @@ def formulario_evaluar_solicitud_view(request):
 
 	return render(request, 'SISCOSS/evaluar_solicitud.html', {'form':form})
 
-class formulario_evaluar_solicitud_vista(CreateView):
-	model = EstadoSolicitud 
-	form_class = EvaluarSolicitudForm
-	template_name = 'SISCOSS/evaluar_solicitud.html'
-	success_url = reverse_lazy('SolicitudesRecibidas')
+def formulario_evaluar_solicitud(request, id_solicitud):
+	solicitud = Solicitud.objects.get(id=id_solicitud)
+	if request.method == 'GET':
+		form = AEvaluarForm(instance=solicitud)
+	else:
+		form = AEvaluarForm(request.POST, instance=solicitud)
+		if form.is_valid():
+			form.save()
+		return redirect('SolicitudesRecibidas')
+	return render(request, 'SISCOSS/evaluar_solicitud.html', {'form':form, 'solicitud':solicitud})

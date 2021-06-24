@@ -81,3 +81,22 @@ class EvaluarSolicitudForm(forms.ModelForm):
 		widgets = {
 			'nombre_estado_soli': forms.TextInput(attrs={'class':'form-control'}),
 		}
+
+class AEvaluarForm(forms.ModelForm):
+	class Meta:
+		model = Solicitud
+
+		fields = [
+			'estado_soli',
+			'comentario',
+		]
+
+		labels = {
+			'estado_soli': 'Estado de solicitud: ',
+			'comentario': 'Comentario a la solicitud: ',
+		}
+
+		widgets = {
+			'estado_soli': forms.Select(attrs={'class':'form-control'}),
+			'comentario': forms.Textarea(attrs={'class': 'form-control textArea'}),
+		}

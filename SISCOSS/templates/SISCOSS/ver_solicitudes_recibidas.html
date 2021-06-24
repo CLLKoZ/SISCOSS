@@ -32,7 +32,7 @@
             <td>{{ solicitud.tipo_servi_soli.nombre_servi }}</td>
             <td>{{ solicitud.fecha_realizacion }}</td>
             <td>{{ solicitud.estado_soli.nombre_estado_soli }}</td>
-            <td><a type="button" class="btn btn-sm btn-dark" href="{% url 'Evaluar'%}">Evaluar</a></td>
+            <td><a type="button" class="btn btn-sm btn-dark" href="{% url 'Evaluar' solicitud.id %}">Evaluar</a></td>
           </tr>
           {% endfor %}
             
