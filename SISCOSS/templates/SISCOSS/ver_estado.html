@@ -37,31 +37,31 @@
 				{% for k in br %}
 					<table border="0px" width="750px">
 						<tr>
-							<td class="td_title">Informacion de la institucion</td>
-							<td>{{ k.institucion }}</td>
+							<td class="td_title" style="color: #333333">Informacion de la institucion:</td>
+							<td>{{ k.institucion.nombre_ins }} &nbsp; <span>&nbsp; {{ k.institucion.email_ins }}</span></td>
 						</tr>
 						<tr>
-							<td class="td_title">Facultad a la que se solicitó</td>
+							<td class="td_title" style="color: #333333">Facultad a la que se solicitó:</td>
 							<td>{{ k.facultad_soli }}</td>
 						</tr>
 						<tr>
-							<td class="td_title">Carrera a la que se solicitó</td>
+							<td class="td_title" style="color: #333333">Carrera a la que se solicitó:</td>
 							<td>{{ k.carrera_soli }}</td>
 						</tr>
 						<tr>
-							<td class="td_title">Tipo de solicitud</td>
+							<td class="td_title" style="color: #333333">Tipo de solicitud:</td>
 							<td>{{ k.tipo_servi_soli }}</td>
 						</tr>
 						<tr>
-							<td class="td_title">Estado de la solicitud</td>
+							<td class="td_title" style="color: #333333">Estado de la solicitud:</td>
 							<td>{{ k.estado_soli }}</td>
 						</tr>
 						<tr>
-							<td class="td_title">Fecha de la realización</td>
+							<td class="td_title" style="color: #333333">Fecha de la realización:</td>
 							<td>{{ k.fecha_realizacion }}</td>
 						</tr>
 						<tr>
-							<td class="td_title">Comentario del evaluador</td>
+							<td class="td_title" style="color: #333333">Comentario del evaluador:</td>
 							<td>{{ k.comentario }}</td>
 						</tr>
 					</table>

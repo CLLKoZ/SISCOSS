@@ -1,0 +1,70 @@
+{% extends "SISCOSS/base.html" %}
+{% load static %}
+
+{% block title %}SISCOSS - Estado de Solicitud{% endblock %}
+
+{% block content %}
+{% load widget_tweaks %}
+	<div class="container">
+		<h2 class="text-center">Ver solicitudes por encargado de facultad</h2>
+		<br>
+		<br>
+		<div class="form-group">
+			<form method="post" action="/ver_soli_facultad/">
+				{% csrf_token %}
+				<p>Seleccione la facultad a la cual pertenece</p>
+            	<select name="bscr" id="">
+            	<option value="">------------</option>
+					{% for facu in facultad %}
+						<option value="{{ facu.id }}">{{ facu.nombre_facu }}</option>
+					{% endfor %}
+				</select>
+            	<br>
+            	<br>
+            	<br>
+            	<label class="col-lg-2">
+                	<button type="submit" class="btn_trns mid ctao esp">Buscar</button>
+            	</label>
+			</form>
+			<br>
+			<br>
+
+			<div>
+				{% if messages %}
+				<ul class="messages">
+					{% for k in messages %}
+    					<li style="color: #D14242; font-size: 20px;" class="text-center">{{ k }}</li>
+    				{% endfor %}
+				</ul>
+				{% endif %}
+			</div>
+
+			<table class="table table-bordered">
+				<tbody>
+					{% if br %}
+					<thead style="background-color:#D14242;">
+						<tr style="vertical-align: middle;">
+							<td class="td_title" style="color: #EEEEEE;">Informacion de la institucion</td>
+							<td class="td_title" style="color: #EEEEEE;">Carrera a la que se solicitó</td>
+							<td class="td_title" style="color: #EEEEEE;">Tipo de solicitud</td>
+							<th class="td_title" style="color: #EEEEEE;">Estado de la solicitud</td>
+							<td class="td_title" style="color: #EEEEEE;">Fecha de la realización</td>
+							<td class="td_title" style="color: #EEEEEE;">Comentario del evaluador</td>
+						</tr>
+					</thead>
+				{% for k in br %}
+					<tr>
+						<td><p>{{ k.institucion.nombre_ins }}</p><p>{{ k.institucion.email_ins }}</p></td>
+						<td>{{ k.carrera_soli }}</td>
+						<td>{{ k.tipo_servi_soli }}</td>
+						<td>{{ k.estado_soli }}</td>
+						<td>{{ k.fecha_realizacion }}</td>
+						<td>{{ k.comentario }}</td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}

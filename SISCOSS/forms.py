@@ -5,7 +5,7 @@ from SISCOSS.models import Institucion, Facultad, Carrera, Solicitud, TipoServic
 class InstitucionForm(forms.ModelForm):
 	class Meta:
 		model = Institucion
-
+		#years = [(year, year) for year in ["Sykes", "Metro centro"]]
 		fields = [
 			'nombre_ins',
 			'email_ins',
@@ -18,6 +18,7 @@ class InstitucionForm(forms.ModelForm):
 
 		widgets = {
 			'nombre_ins': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese el nombre de la institucion'}),
+			#'nombre_ins': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Ingrese el nombre de la institucion'}, choices=years),
 			'email_ins': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese el email de la institucion'}),
 		}
 

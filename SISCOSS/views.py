@@ -82,18 +82,6 @@ def ver_estado(request):
 
 	return render(request, 'SISCOSS/ver_estado.html')
 
-def formulario_evaluar_solicitud_view(request):
-
-	if request.method=='POST':
-		form = EvaluarSolicitudForm(request.POST)    
-		if form.is_valid():
-			form.save()
-		return redirect('SolicitudesRecibidas')
-	else:
-		form = EvaluarSolicitudForm()
-
-	return render(request, 'SISCOSS/evaluar_solicitud.html', {'form':form})
-
 def formulario_evaluar_solicitud(request, id_solicitud):
 	solicitud = Solicitud.objects.get(id=id_solicitud)
 	if request.method == 'GET':
@@ -104,3 +92,19 @@ def formulario_evaluar_solicitud(request, id_solicitud):
 			form.save()
 		return redirect('SolicitudesRecibidas')
 	return render(request, 'SISCOSS/evaluar_solicitud.html', {'form':form, 'solicitud':solicitud})
+
+def ver_soli_facultad(request):
+	facultad = Facultad.objects.all()
+	if request.method=='POST':
+		buscar = request.POST['bscr']
+
+		if buscar:
+			match = Solicitud.objects.filter(Q(facultad_soli_id=buscar))
+			if match:
+				return render(request, 'SISCOSS/ver_solicitud_facultad.html', {'br': match, 'facultad': facultad})
+			else:
+				messages.error(request, 'No hay solicitudes para esta la facultad seleccionada.')
+		else:
+			return HttpResponseRedirect('/ver_soli_facultad/')
+
+	return render(request, 'SISCOSS/ver_solicitud_facultad.html', {'facultad':facultad})
