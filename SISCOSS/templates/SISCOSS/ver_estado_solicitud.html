@@ -19,6 +19,7 @@
             <tr>
               <th scope="col">Institucion</th>
               <th scope="col">Facultad</th>
+              <th scope="col">Escuela</th>
               <th scope="col">Tipo de servicio</th>
               <th scope="col">Fecha de realizacion</th>
               <th scope="col">Estado</th>
@@ -30,6 +31,7 @@
             <tr>
               <th>{{ solicitud.institucion.nombre_ins }}</th>
               <td>{{ solicitud.facultad_soli.nombre_facu }}</td>
+              <td>{{ solicitud.carrera_soli }}</td>
               <td>{{ solicitud.tipo_servi_soli.nombre_servi }}</td>
               <td>{{ solicitud.fecha_realizacion }}</td>
               <td>{{ solicitud.estado_soli.nombre_estado_soli }}</td>

@@ -18,6 +18,7 @@
         <thead class="thead-dark">
           <tr>
             <th scope="col">Institucion</th>
+            <th scope="col">Facultad</th>
             <th scope="col">Tipo de servicio</th>
             <th scope="col">Fecha de realizacion</th>
             <th scope="col">Estado</th>
@@ -29,6 +30,7 @@
           {% for solicitud in object_list %}
           <tr>
             <th>{{ solicitud.institucion.nombre_ins }}</th>
+            <th>{{ solicitud.facultad_soli }}</th>
             <td>{{ solicitud.tipo_servi_soli.nombre_servi }}</td>
             <td>{{ solicitud.fecha_realizacion }}</td>
             <td>{{ solicitud.estado_soli.nombre_estado_soli }}</td>
