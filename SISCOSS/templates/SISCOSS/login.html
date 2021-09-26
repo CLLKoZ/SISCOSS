@@ -1,0 +1,18 @@
+{% extends "SISCOSS/base.html" %}
+{% block title %}SISCOSS - Login{% endblock %}
+
+{% block content %}
+{% load widget_tweaks %}
+{% load static %}
+	<div class="container">
+		<h2 style="text-align: center;">Inicio de sesion</h2>
+
+		<div class="form-group">
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <p style="text-align:center;"><button type="submit" class="btn_trns mid ctao esp">Ingresar</button></p>
+            </form>
+        </div>
+    </div>
+{% endblock %}

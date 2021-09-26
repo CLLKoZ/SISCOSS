@@ -12,5 +12,8 @@ urlpatterns = [
     path('ajax/cargar-carreras/', views.cargar_carrera, name='ajax_cargar_carrera'),
     path('ajax/cargar-tipos/', views.cargar_tipo, name='ajax_cargar_tipo'),
     path('ver_estado_soli/', views.ver_estado, name='ver_estado_soli'),
-    path('ver_soli_facultad/', views.ver_soli_facultad, name='VerSoliFacultad')
+    path('ver_soli_facultad/', views.ver_soli_facultad, name='VerSoliFacultad'),
+    path('crear_maestro/', views.MaestroCrear.as_view(), name="MaestroCrear"),
+    path('login/', views.Login_view, name="login"),
+    path('logout/', views.logout_view, name="logout"),
 ]

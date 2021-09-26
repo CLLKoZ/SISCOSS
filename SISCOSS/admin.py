@@ -1,11 +1,25 @@
 from django.contrib import admin
+from django.contrib.auth.models import User
+from .models import MiUsuario, MaestroPropio, Facultad, Carrera, Escuela
+from .forms import CustomUserCreationForm
+from django.contrib.auth.admin import UserAdmin
 
-from SISCOSS.models import Maestro, Facultad, Escuela, Carrera, EstadoSolicitud, TipoServicio
 # Register your models here.
+class CustomAdminUser(UserAdmin):
+    model = MiUsuario
+    add_form = CustomUserCreationForm
 
-admin.site.register(Maestro)
+    list_display = ('username', 'email', 'is_admin')
+    search_fields = ('username','email')
+    ordering = ('username','email')
+    readonly_fields = ('id',)
+
+    list_filter = ()
+    fieldsets = ()
+    filter_horizontal = ()
+
+admin.site.register(MiUsuario, CustomAdminUser)
+admin.site.register(MaestroPropio)
 admin.site.register(Facultad)
-admin.site.register(Escuela)
 admin.site.register(Carrera)
-admin.site.register(EstadoSolicitud)
-admin.site.register(TipoServicio)
+admin.site.register(Escuela)

@@ -1,0 +1,19 @@
+{% extends "SISCOSS/base.html" %}
+{% block title %}SISCOSS - Registro de maestro{% endblock %}
+
+{% block content %}
+{% load widget_tweaks %}
+{% load static %}
+	<div class="container">
+		<h2 style="text-align: center;">Crear Perfil de maestro</h2>
+
+		<div class="form-group">
+            <form method="post">
+                {% csrf_token %}
+                {{ form2.as_p }}
+                {{ form.as_p }}
+                <p style="text-align:center;"><button type="submit" class="btn_trns mid ctao esp">Registrarlo</button></p>
+            </form>
+        </div>
+    </div>
+{% endblock %}

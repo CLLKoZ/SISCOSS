@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect, HttpResponse,HttpResponseRedirect
 from django.urls import reverse_lazy
+from django.contrib.auth import authenticate, login, logout
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView
 from django.db.models import Q
 from django.contrib import messages
-from SISCOSS.forms import InstitucionForm, SolicitudForm, EvaluarSolicitudForm, AEvaluarForm
-from SISCOSS.models import Solicitud, Escuela, Carrera, Facultad, TipoServicio, EstadoSolicitud, Maestro
+from django.conf import settings
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
+from SISCOSS.forms import InstitucionForm, SolicitudForm, EvaluarSolicitudForm, AEvaluarForm, MaestroCreationForm, UserCustomForm, InstitucionCreationForm
+from SISCOSS.models import Solicitud, Escuela, Carrera, Facultad, TipoServicio, EstadoSolicitud, Maestro, MaestroPropio, EstudiantePropio
 
 
 # Create your views here.
@@ -108,3 +112,94 @@ def ver_soli_facultad(request):
 			return HttpResponseRedirect('/ver_soli_facultad/')
 
 	return render(request, 'SISCOSS/ver_solicitud_facultad.html', {'facultad':facultad})
+
+class MaestroCrear(CreateView):
+	model = MaestroPropio
+	template_name = 'SISCOSS/crear_maestro.html'
+	form_class = MaestroCreationForm
+	second_form_class = UserCustomForm
+	model.usuario.is_maestro = True
+	success_url = '/'
+
+	def get_context_data(self, **kwargs):
+		context = super(MaestroCrear, self).get_context_data(**kwargs)
+		if 'form' not in context:
+			context['form'] = self.form_class(self.request.GET)
+		if 'form2' not in context:
+			context['form2'] = self.second_form_class(self.request.GET)
+		return context
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object
+		form = self.form_class(request.POST)
+		form2 = self.second_form_class(request.POST)
+		if form.is_valid() and form2.is_valid():
+			maestro = form.save(commit=False)
+			maestro.usuario = form2.save()
+			maestro = form.save(commit=True)
+			maestro.save()
+			return HttpResponseRedirect(self.get_success_url())
+		else:
+			return self.render_to_response(self.get_context_data(form=form, form2=form2))
+
+class InstitucionRegistrar(CreateView):
+    model = MaestroPropio
+    template_name = 'SISCOSS/crear_maestro.html'
+    form_class = InstitucionCreationForm
+    second_form_class = UserCustomForm
+    model.usuario.is_maestro = True
+    success_url = '/'
+
+    def get_context_data(self, **kwargs):
+        context = super(InstitucionRegistrar, self).get_context_data(**kwargs)
+        if 'form' not in context:
+            context['form'] = self.form_class(self.request.GET)
+        if 'form2' not in context:
+            context['form2'] = self.second_form_class(self.request.GET)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object
+        form = self.form_class(request.POST)
+        form2 = self.second_form_class(request.POST)
+        if form.is_valid() and form2.is_valid():
+            maestro = form.save(commit=False)
+            maestro.usuario = form2.save()
+            maestro = form.save(commit=True)
+            maestro.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form, form2=form2))
+
+def Login_view(request):
+    error_message = None
+    form = AuthenticationForm()
+    if request.method=='POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            if request.GET.get('next'):
+                return redirect(request.GET.get('next'))
+            else:
+                return redirect('inicio')
+        else:
+            error_message = 'UPS! Algo salio mal :(. Ingresa el usuario'
+    return render(request, 'SISCOSS/login.html', {'form':form})
+
+
+#@login_required()
+def inicio(request):
+    current_user = request.user
+    if not request.user.is_authenticated:
+        return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+    else:
+        if current_user.type == "MAESTRO":
+            return render(request, "inicio.html")
+        else:
+            return redirect("MaestroCrear")
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')

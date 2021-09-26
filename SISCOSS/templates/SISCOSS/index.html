@@ -19,7 +19,7 @@
     <div class="row tama">
         <a href="{% url 'SolicitudesRecibidas' %}" class="md ctao bttn disp1" style="text-decoration: none;"><p class="tal">Ver solicitudes recibidas</p></a>
         <a href="{% url 'ver_estado_soli' %}" class="btn md ctao bttn away"><p class="tal">Verificar el estado de mi solicitud</p></a>
-        <a href="#" class="btn md ctao bttn away disp3"><p class="tal">En espera de mas pantallas :D</p></a>
+        <a href="{% url 'login' %}" class="btn md ctao bttn away disp3"><p class="tal">Iniciar Sesion</p></a>
     </div>
 	<script src="{% static 'SISCOSS/js/bootstrap.bundle.js' %}"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

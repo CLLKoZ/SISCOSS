@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'Proyecto_DSI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'DSI_SISCOSS',
+        'NAME': 'TareaDSI',
         'HOST': 'localhost',
         'USER': 'postgres',
         'PASSWORD': 'admin123',
@@ -115,6 +115,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'SISCOSS.MiUsuario'
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.AllowAllUsersModelBackend',
+    'CustomUsers.backends.CaseInsesitiveBE'
+)
+LOGIN_URL = "login"
+LOGOUT_REDIRECT_URL = '/login/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
