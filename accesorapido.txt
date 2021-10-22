@@ -1,0 +1,3 @@
+cd ..\"Entornos V"\Test01\Scripts
+activate
+cd ..\..\..\GitHub

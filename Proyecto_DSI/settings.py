@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'SISCOSS',
     'widget_tweaks',
+    'CustomUsers',
 ]
 
 MIDDLEWARE = [
@@ -115,13 +116,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'SISCOSS.MiUsuario'
+AUTH_USER_MODEL = 'CustomUsers.MiUsuario'
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.AllowAllUsersModelBackend',
     'CustomUsers.backends.CaseInsesitiveBE'
 )
 LOGIN_URL = "login"
-LOGOUT_REDIRECT_URL = '/login/'
+LOGOUT_REDIRECT_URL = 'login/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

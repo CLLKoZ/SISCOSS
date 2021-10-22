@@ -8,8 +8,8 @@ from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from SISCOSS.forms import InstitucionForm, SolicitudForm, EvaluarSolicitudForm, AEvaluarForm, MaestroCreationForm, UserCustomForm, InstitucionCreationForm
-from SISCOSS.models import Solicitud, Escuela, Carrera, Facultad, TipoServicio, EstadoSolicitud, Maestro, MaestroPropio, EstudiantePropio
+from SISCOSS.forms import SolicitudForm, AEvaluarForm
+from SISCOSS.models import Solicitud, Escuela, Carrera, Facultad, TipoServicio
 
 
 # Create your views here.
@@ -25,37 +25,33 @@ class asignar_encargado_escuela(ListView):
 	model = Escuela
 	template_name= 'SISCOSS/asignar_encargado_escuela.html'
 
-class asignar_encargado_escuela_seleccionar(ListView):
-	model = Maestro
-	template_name= 'SISCOSS/asignar_encargado_escuela_seleccionar.html'
+#class asignar_encargado_escuela_seleccionar(ListView):
+	#model = Maestro
+	#template_name= 'SISCOSS/asignar_encargado_escuela_seleccionar.html'
 
-class SolicitudCrear(CreateView):
-	model = Solicitud
-	template_name = 'SISCOSS/solicitud.html'
-	form_class = SolicitudForm
-	second_form_class = InstitucionForm
-	success_url = '/'
+#class SolicitudCrear(CreateView):
+	#model = Solicitud
+	#template_name = 'SISCOSS/solicitud.html'
+	#success_url = '/'
 
-	def get_context_data(self, **kwargs):
-		context = super(SolicitudCrear, self).get_context_data(**kwargs)
-		if 'form' not in context:
-			context['form'] = self.form_class(self.request.GET)
-		if 'form2' not in context:
-			context['form2'] = self.second_form_class(self.request.GET)
-		return context
+	#def get_context_data(self, **kwargs):
+		#context = super(SolicitudCrear, self).get_context_data(**kwargs)
+		#if 'form' not in context:
+			#context['form'] = self.form_class(self.request.GET)
+		#return context
 
-	def post(self, request, *args, **kwargs):
-		self.object = self.get_object
-		form = self.form_class(request.POST)
-		form2 = self.second_form_class(request.POST)
-		if form.is_valid() and form2.is_valid():
-			solicitud = form.save(commit=False)
-			solicitud.institucion = form2.save()
-			solicitud = form.save(commit=True)
-			solicitud.save()
-			return HttpResponseRedirect(self.get_success_url())
-		else:
-			return self.render_to_response(self.get_context_data(form=form, form2=form2))
+	#def post(self, request, *args, **kwargs):
+		#self.object = self.get_object
+		#form = self.form_class(request.POST)
+		#current_user = request.user
+		#if form.is_valid() and form2.is_valid():
+			#solicitud = form.save(commit=False)
+			#solicitud.institucion = current_user.id
+			#solicitud = form.save(commit=True)
+			#solicitud.save()
+			#return HttpResponseRedirect(self.get_success_url())
+		#else:
+			#return self.render_to_response(self.get_context_data(form=form, form2=form2))
 
 class ver_solicitudes_recibidas(ListView):
 	model = Solicitud
@@ -71,20 +67,20 @@ def cargar_tipo(request):
 	tipos = TipoServicio.objects.filter(carrera_tipo_id=carrera_id).order_by('nombre_servi')
 	return render(request, 'SISCOSS/tipo_drop_list.html', {'tipos': tipos})
 
-def ver_estado(request):
-	if request.method=='POST':
-		buscar = request.POST['bscr']
+#def ver_estado(request):
+	#if request.method=='POST':
+		#buscar = request.POST['bscr']
 
-		if buscar:
-			match = Solicitud.objects.filter(Q(institucion__email_ins=buscar))
-			if match:
-				return render(request, 'SISCOSS/ver_estado.html', {'br': match})
-			else:
-				messages.error(request, 'No hay Solicitudes que coinsidan con el Email.')
-		else:
-			return HttpResponseRedirect('/ver_estado_soli/')
+		#if buscar:
+			#match = Solicitud.objects.filter(Q(institucion__email_ins=buscar))
+			#if match:
+				#return render(request, 'SISCOSS/ver_estado.html', {'br': match})
+			#else:
+				#messages.error(request, 'No hay Solicitudes que coinsidan con el Email.')
+		#else:
+			#return HttpResponseRedirect('/ver_estado_soli/')
 
-	return render(request, 'SISCOSS/ver_estado.html')
+	#return render(request, 'SISCOSS/ver_estado.html')
 
 def formulario_evaluar_solicitud(request, id_solicitud):
 	solicitud = Solicitud.objects.get(id=id_solicitud)
@@ -112,94 +108,3 @@ def ver_soli_facultad(request):
 			return HttpResponseRedirect('/ver_soli_facultad/')
 
 	return render(request, 'SISCOSS/ver_solicitud_facultad.html', {'facultad':facultad})
-
-class MaestroCrear(CreateView):
-	model = MaestroPropio
-	template_name = 'SISCOSS/crear_maestro.html'
-	form_class = MaestroCreationForm
-	second_form_class = UserCustomForm
-	model.usuario.is_maestro = True
-	success_url = '/'
-
-	def get_context_data(self, **kwargs):
-		context = super(MaestroCrear, self).get_context_data(**kwargs)
-		if 'form' not in context:
-			context['form'] = self.form_class(self.request.GET)
-		if 'form2' not in context:
-			context['form2'] = self.second_form_class(self.request.GET)
-		return context
-
-	def post(self, request, *args, **kwargs):
-		self.object = self.get_object
-		form = self.form_class(request.POST)
-		form2 = self.second_form_class(request.POST)
-		if form.is_valid() and form2.is_valid():
-			maestro = form.save(commit=False)
-			maestro.usuario = form2.save()
-			maestro = form.save(commit=True)
-			maestro.save()
-			return HttpResponseRedirect(self.get_success_url())
-		else:
-			return self.render_to_response(self.get_context_data(form=form, form2=form2))
-
-class InstitucionRegistrar(CreateView):
-    model = MaestroPropio
-    template_name = 'SISCOSS/crear_maestro.html'
-    form_class = InstitucionCreationForm
-    second_form_class = UserCustomForm
-    model.usuario.is_maestro = True
-    success_url = '/'
-
-    def get_context_data(self, **kwargs):
-        context = super(InstitucionRegistrar, self).get_context_data(**kwargs)
-        if 'form' not in context:
-            context['form'] = self.form_class(self.request.GET)
-        if 'form2' not in context:
-            context['form2'] = self.second_form_class(self.request.GET)
-        return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object
-        form = self.form_class(request.POST)
-        form2 = self.second_form_class(request.POST)
-        if form.is_valid() and form2.is_valid():
-            maestro = form.save(commit=False)
-            maestro.usuario = form2.save()
-            maestro = form.save(commit=True)
-            maestro.save()
-            return HttpResponseRedirect(self.get_success_url())
-        else:
-            return self.render_to_response(self.get_context_data(form=form, form2=form2))
-
-def Login_view(request):
-    error_message = None
-    form = AuthenticationForm()
-    if request.method=='POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            login(request, user)
-            if request.GET.get('next'):
-                return redirect(request.GET.get('next'))
-            else:
-                return redirect('inicio')
-        else:
-            error_message = 'UPS! Algo salio mal :(. Ingresa el usuario'
-    return render(request, 'SISCOSS/login.html', {'form':form})
-
-
-#@login_required()
-def inicio(request):
-    current_user = request.user
-    if not request.user.is_authenticated:
-        return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
-    else:
-        if current_user.type == "MAESTRO":
-            return render(request, "inicio.html")
-        else:
-            return redirect("MaestroCrear")
-
-def logout_view(request):
-    logout(request)
-    return redirect('login')

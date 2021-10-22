@@ -1,0 +1,67 @@
+from django.shortcuts import render, redirect, HttpResponse,HttpResponseRedirect
+from .forms import UserCustomForm
+from .models import MiUsuario
+from django.views.generic.edit import CreateView
+
+# Create your views here.
+
+def Login_view(request):
+    error_message = None
+    form = AuthenticationForm()
+    if request.method=='POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            if request.GET.get('next'):
+                return redirect(request.GET.get('next'))
+            else:
+                return redirect('Despacho')
+        else:
+            error_message = 'UPS! Algo salio mal :(. Ingresa el usuario'
+    return render(request, 'login.html', {'form':form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
+def despachador(request):
+    current_user = request.user
+    if not request.user.is_authenticated:
+        return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+    else:
+        if current_user.type == "MAESTRO":
+            return render(request, "SISCOSS/maestro/solicitudes_recibidas.html")
+        elif current_user.type == "INSTITUCION":
+            return render(request, "SISCOSS/institucion/solicitudes_realizadas.html")
+        elif current_user.type == "ESTUDIANTE":
+            return render(request, "SISCOSS/estudiante/solicitudes.html")
+        elif current_user.type == "ENCARGADO_FACU":
+            return render(request, "SISCOSS/encargado/solicitudes.html")
+        elif current_user.type == "PROYECCION_SOC":
+            return render(request, "SISCOSS/proyeccion/solicitudes.html")
+
+class ProyeccionUserCreate(CreateView):
+    model = MiUsuario
+    template_name = "proyeccion_registro.html"
+    form_class = UserCustomForm
+    success_url = '/'
+
+    def get_context_data(self, **kwargs):
+        context = super(ProyeccionUserCreate, self).get_context_data(**kwargs)
+        if 'form' not in context:
+            context['form'] = self.form_class(self.request.GET)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            usuario = form.save(commit=False)
+            usuario.type = "PROYECCION_SOC"
+            usuario = form.save(commit=True)
+            usuario.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
