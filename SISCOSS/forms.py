@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.db.models import fields
 from django.forms import widgets
 from django.core.exceptions import ValidationError
-from SISCOSS.models import Facultad, Carrera, Solicitud, TipoServicio, Escuela
+from .models import *
 
 class SolicitudForm(forms.ModelForm):
 	class Meta:
@@ -67,4 +67,64 @@ class AEvaluarForm(forms.ModelForm):
 		widgets = {
 			'estado_soli': forms.Select(attrs={'class':'form-control'}),
 			'comentario': forms.Textarea(attrs={'class': 'form-control textArea'}),
+		}
+
+class EncargadoForm(forms.ModelForm):
+	class Meta:
+		model = EncargadoPropio
+
+		fields = [
+			'facultad',
+		]
+
+		labels = {
+			'facultad': 'Facultad: ',
+		}
+
+		widgets = {
+			'facultad': forms.Select(attrs={'class':'form-control'}),
+		}
+
+class MaestroForm(forms.ModelForm):
+	class Meta:
+		model = MaestroPropio
+
+		fields = [
+			'facultad',
+			'carrera',
+			'escuela',
+			'especialidad',
+			'esta_disponible',
+		]
+
+		labels = {
+			'facultad': 'Facultad',
+			'carrera': 'Carrera',
+			'escuela': 'Escuela',
+			'especialidad': 'Especialidad',
+			'esta_disponible': '¿Se encuentra disponible?',
+		}
+
+		widgets = {
+			'facultad' : forms.Select(attrs={'class': 'form-control'}),
+			'carrera' : forms.Select(attrs={'class': 'form-control'}),
+			'escuela' : forms.Select(attrs={'class': 'form-control'}),
+			'especialidad' : forms.TextInput(attrs={'class': 'form-control'}),
+			'esta_disponible' : forms.CheckboxInput(),
+		}
+
+class InstitucionForm(forms.ModelForm):
+	class Meta:
+		model = InstitucionPropio
+
+		fields = [
+			'ubicacion',
+		]
+
+		labels = {
+			'ubicacion': 'Direccion de la institución',
+		}
+
+		widgets = {
+			'ubicacion': forms.TextInput(attrs={'class': 'form-control'}),
 		}

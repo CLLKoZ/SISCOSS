@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
-from .models import Facultad, Carrera, Escuela,MaestroPropio
+from .models import Facultad, Carrera, Escuela, MaestroPropio, EncargadoPropio
 from django.contrib.auth.admin import UserAdmin
 
 # Register your models here.
@@ -18,6 +18,7 @@ from django.contrib.auth.admin import UserAdmin
     #filter_horizontal = ()
 
 admin.site.register(MaestroPropio)
+admin.site.register(EncargadoPropio)
 admin.site.register(Facultad)
 admin.site.register(Carrera)
 admin.site.register(Escuela)

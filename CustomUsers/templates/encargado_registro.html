@@ -1,0 +1,17 @@
+{% extends "SISCOSS/base.html" %}
+{% load static %}
+
+{% block title %}SISCOSS - Registro Encargado{% endblock %}
+
+{% block content %}
+<div class="container">
+    <form action="" method="post" class="form-group">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {{ form2.as_p }}
+        <p style="text-align:center;">
+            <button type="submit" class="btn_trns mid ctao esp">Unirme</button>
+        </p>
+    </form>
+</div>
+{% endblock %}
