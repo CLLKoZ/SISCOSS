@@ -73,8 +73,8 @@ class MaestroPropio(models.Model):
         #super().save(*args, **kwargs)
 
 class InstitucionPropio(models.Model):
-    usuario = models.OneToOneField(MiUsuario, on_delete=CASCADE)
-    ubicacion = models.TextField(max_length=255, default="None")
+	usuario = models.OneToOneField(MiUsuario, on_delete=CASCADE)
+	ubicacion = models.TextField(max_length=255, default="None")
 
 class EncargadoPropio(models.Model):
     usuario = models.OneToOneField(MiUsuario, on_delete=CASCADE)

@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect, HttpResponse,HttpResponseRedirect
 from .forms import UserCustomForm, UserCustomInsForm
 from .models import MiUsuario
+from django.contrib.auth.decorators import login_required
 from SISCOSS.models import EncargadoPropio, MaestroPropio, InstitucionPropio
 from SISCOSS.forms import EncargadoForm, MaestroForm, InstitucionForm
 from django.views.generic.edit import CreateView
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import *
 
 # Create your views here.
 def Login_view(request):
@@ -27,15 +30,16 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
+@login_required
 def despachador(request):
     current_user = request.user
     if not request.user.is_authenticated:
         return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
     else:
         if current_user.type == "MAESTRO":
-            return render(request, "SISCOSS/maestro/solicitudes_recibidas.html")
+            return redirect('SolicitudesMaestro')
         elif current_user.type == "INSTITUCION":
-            return render(request, "SISCOSS/institucion/solicitudes_realizadas.html")
+            return render(request, "SolicitudesEncargado")
         elif current_user.type == "ESTUDIANTE":
             return render(request, "SISCOSS/estudiante/solicitudes.html")
         elif current_user.type == "ENCARGADO_FACU":
@@ -151,7 +155,7 @@ class InstitucionUserCrear(CreateView):
         if form.is_valid() and form2.is_valid():
             institucion = form.save(commit=False)
             usuario = form2.save(commit=False)
-            usuario.type = "Institucion"
+            usuario.type = "INSTITUCION"
             usuario = form2.save(commit=True)
             institucion.usuario = form2.save()
             institucion = form.save(commit=True)

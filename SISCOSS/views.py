@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse,HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from django.views.generic import ListView
@@ -7,13 +8,12 @@ from django.db.models import Q
 from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.decorators import login_required
 from SISCOSS.forms import SolicitudForm, AEvaluarForm
-from SISCOSS.models import Solicitud, Escuela, Carrera, Facultad, TipoServicio
+from SISCOSS.models import Solicitud, Escuela, Carrera, Facultad, TipoServicio, MaestroPropio
 
 
 # Create your views here.
-
+@login_required
 def index(request):
 	return render(request, "SISCOSS/index.html")
 
@@ -53,9 +53,29 @@ class asignar_encargado_escuela(ListView):
 		#else:
 			#return self.render_to_response(self.get_context_data(form=form, form2=form2))
 
-class ver_solicitudes_recibidas(ListView):
-	model = Solicitud
-	template_name= 'SISCOSS/ver_solicitudes_recibidas.html'
+@login_required
+def solicitudes_recibidas(request):
+	current_user = request.user
+	if current_user.type == "MAESTRO":
+		m = MaestroPropio.objects.get(usuario=current_user.id)
+		f = Facultad.objects.get(id=m.facultad.id)
+		c = Carrera.objects.get(id=m.carrera.id)
+		solicitud = Solicitud.objects.filter(estado_soli="PENDIENTE", facultad_soli_id=f.id, carrera_soli_id=c.id)
+		return render(request, 'SISCOSS/maestro/solictud_recibida.html', {'solicitud': solicitud})
+	else:
+		return redirect('Despacho')
+
+@login_required
+def solicitudes_encargado(request):
+	current_user = request.user
+	if current_user.type == "ENCARGADO_FACU":
+		e = EncargadoPropio.objects.get(usuario=current_user.id)
+		f = Facultad.objects.get(id=e.facultad.id)
+		solicitud = Solicitud.objects.filter(facultad_soli_id=f.id)
+		return render(request, 'SISCOSS/encargado/solictudes.html', {'solicitud': solicitud})
+	else:
+		return redirect('Despacho')
+
 
 def cargar_carrera(request):
 	facultad_id = request.GET.get('facultad_soli')
