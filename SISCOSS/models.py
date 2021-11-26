@@ -11,6 +11,11 @@ class Estados(models.TextChoices):
         APROBADA = "APROBADA", "Aprobada"
         RECHAZADA = "RECHAZADA", "Rechazada"
 
+class EstadosServicios(models.TextChoices):
+        NO_INICIADO = "NO INICIADO", "No Iniciado"
+        INICIADO = "INICIADO", "Iniciado"
+        FINALIZADO = "FINALIZADO", "Finalizado"
+
 #<----- INFORMACION NECESARIA OTRAS TABLAS ----->
 class Facultad(models.Model):
 	nombre_facu = models.CharField(max_length=100)
@@ -59,18 +64,10 @@ class MaestroPropio(models.Model):
 	especialidad = models.CharField(max_length=100)
 	esta_disponible = models.BooleanField(default=True)
 
-#class EstudiantePropio(models.Model):
-    #usuario = models.OneToOneField(MiUsuario, on_delete=CASCADE)
-    #facultad = models.ForeignKey('Facultad', on_delete=models.CASCADE,)
-    #carrera = models.ForeignKey('Carrera', on_delete=models.CASCADE,)
-    #n_materias_aprobadas = models.PositiveSmallIntegerField()
-    #porcentaje_carrera = models.DecimalField(max_digits=2, decimal_places=0)
-
-    #def save(self, *args, **kwargs):
-        #totales = self.carrera.n_materias_necesarias
-        #aprobadas = self.n_materias_cursadas
-        #self.porcentaje_carrera = (aprobadas/totales) * 100
-        #super().save(*args, **kwargs)
+class EstudiantePropio(models.Model):
+    usuario = models.OneToOneField(MiUsuario, on_delete=CASCADE)
+    facultad = models.ForeignKey('Facultad', on_delete=models.CASCADE,)
+    carrera = models.ForeignKey('Carrera', on_delete=models.CASCADE,)
 
 class InstitucionPropio(models.Model):
 	usuario = models.OneToOneField(MiUsuario, on_delete=CASCADE)
@@ -79,3 +76,43 @@ class InstitucionPropio(models.Model):
 class EncargadoPropio(models.Model):
     usuario = models.OneToOneField(MiUsuario, on_delete=CASCADE)
     facultad = models.ForeignKey('Facultad', on_delete=models.CASCADE,)
+
+class MiniExpediente(models.Model):
+	estudiante = models.OneToOneField('EstudiantePropio', on_delete=CASCADE)
+	materias_aprobadas = models.IntegerField()
+	porcentaje_aprobado = models.DecimalField(max_digits=4, decimal_places=2)
+	horas_sociales = models.IntegerField()
+
+	def save(self, *args, **kwargs):
+		todas = self.estudiante.carrera.n_materias_necesarias
+		aprobadas = self.materias_aprobadas
+		self.porcentaje_aprobado = (aprobadas/todas)*100
+		super().save(*args, **kwargs)
+
+class ServicioSocial(models.Model):
+	solicitud = models.OneToOneField('Solicitud', on_delete=CASCADE)
+	horas_alumno = models.IntegerField()
+	cantidad_alumnos = models.IntegerField()
+	duracion_horas = models.IntegerField()
+	fecha_inicio = models.DateField(auto_now=True)
+	fecha_fin = models.DateField()
+	estado_servicio = models.CharField(_('EstadoServicio'), max_length=50, choices=EstadosServicios.choices, default=EstadoServicios.NO_INICIADO)
+
+	def save(self, *args, **kwargs):
+		cant_a = self.cantidad_alumnos
+		horas_a = self.horas_alumno
+		self.duracion_horas = cant_a * horas_a
+		super().save(*args, **kwargs)
+
+class ServicioAlumno(models.Model):
+	servicio_social = models.ForeignKey('ServicioSocial', on_delete=CASCADE)
+	alumno = models.ForeignKey('EstudiantePropio', on_delete=CASCADE)
+	observacion = models.CharField(blank=True)
+
+class RegistroServicioDiario(models.Model):
+	servicio_alumno = models.ForeignKey('ServicioAlumno', on_delete=CASCADE)
+	horas_invertidas = models.IntegerField()
+	fecha_dia = models.DateField(auto_now=True)
+	descripcion_actividad = models.CharField(max_length=255)
+	nombre_encargado = models.CharField(max_length=50)
+	firma = models.ImageField()

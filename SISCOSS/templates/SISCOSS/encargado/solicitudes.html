@@ -1,43 +1,93 @@
 {% extends "SISCOSS/base.html" %}
-{% block title %}SISCOSS - Login{% endblock %}
+{% load static %}
+
+{% block title %}SISCOSS - Estado de Solicitud{% endblock %}
 
 {% block content %}
 {% load widget_tweaks %}
-{% load static %}
 	<div class="container">
-		<h2 style="text-align: center;">Solicitudes de Carrera</h2>
-
-		<div>
-            <table class="table py-5">
-                <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Institucion</th>
-                    <th scope="col">Carrera</th>
-                    <th scope="col">Tipo de servicio</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Ver a detalle</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% if solicitud %}
-                {% for soli in solicitud %}
-                <tr>
-                    <th>{{ soli.institucion.usuario.nombre }}</th>
-                    <th>{{ soli.carrera_soli }}</th>
-                    <td>{{ soli.tipo_servi_soli.nombre_servi }}</td>
-                    <td>{{ soli.fecha_realizacion }}</td>
-                    <td><a href="#">Detalles</a></td>
-                </tr>
-                {% endfor %}
-                {% else %}
-                <div class="alert alert-danger" role="alert">                
-                    No hay registros de solicitudes para mostrar                               	
-                </div>
-                {% endif %}
-                </tbody>
-            </table>
-            </div>
-            <a type="button" class="btn btn-sm btn-dark" href="{% url 'Inicio'%}">Regresar</a>
-        </div>
-    </div>
+		{% if match %}
+            <h2 class="text-center">Solicitudes de {{ carrera_nombre }}</h2>
+        {% else %}
+            <h2 class="text-center">Solicitudes de la facultad {{ facu_nombre }}</h2>
+        {% endif %}
+		<br>
+		<br>
+		<div class="form-group">
+			<form method="post" action="/ver_solicitud/">
+				{% csrf_token %}
+				<div class="col-lg-5">
+					<h6>Filtrar por facultad:</h6>
+                    <select class="form-control" name="buscar" id="idCarrera">
+                        <option value="">-------Seleccione Carrera-------</option>
+                        {% for c in carrera %}
+                        <option value="{{ c.id }}">{{ c.nombre_carrera }}</option>
+                        {% endfor %}
+                    </select>
+				</div>
+				<br>
+				<label class="col-lg-2">
+					<button type="submit" class="btn_trns mid ctao esp">Buscar</button>
+				</label>
+			</form>
+			<br>
+			<br>
+			<div>
+				{% if messages %}
+				<ul class="messages">
+					{% for k in messages %}
+					<li style="color: #D14242; font-size: 20px;" class="text-center">{{ k }}</li>
+					{% endfor %}
+				</ul>
+				{% endif %}
+			</div>
+			{% if match %}
+				<table class="table py-5">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">Institucion</th>
+							<th scope="col">Carrera</th>
+							<th scope="col">Tipo de servicio</th>
+							<th scope="col">Fecha de realizacion</th>
+							<th scope="col">Estado</th>
+						</tr>
+					</thead>
+					<tbody>
+					{% for soli in match %}
+					<tr>
+						<th>{{ soli.institucion.usuario.nombre }}</th>
+						<th>{{ soli.carrera_soli }}</th>
+						<td>{{ soli.tipo_servi_soli.nombre_servi }}</td>
+						<td>{{ soli.fecha_realizacion }}</td>
+						<td>{{ soli.estado_soli }}</td>
+					</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			{% else %}
+				<table class="table py-5">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">Institucion</th>
+							<th scope="col">Carrera</th>
+							<th scope="col">Tipo de servicio</th>
+							<th scope="col">Fecha de realizacion</th>
+							<th scope="col">Estado</th>
+						</tr>
+					</thead>
+					<tbody>
+					{% for soli in solicitud %}
+					<tr>
+						<th>{{ soli.institucion.usuario.nombre }}</th>
+						<th>{{ soli.carrera_soli }}</th>
+						<td>{{ soli.tipo_servi_soli.nombre_servi }}</td>
+						<td>{{ soli.fecha_realizacion }}</td>
+						<td>{{ soli.estado_soli }}</td>
+					</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			{% endif %}
+		</div>
+	</div>
 {% endblock %}

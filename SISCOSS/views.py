@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
 from SISCOSS.forms import SolicitudForm, AEvaluarForm
-from SISCOSS.models import Solicitud, Escuela, Carrera, Facultad, TipoServicio, MaestroPropio
+from SISCOSS.models import *
 
 
 # Create your views here.
@@ -64,6 +64,67 @@ def solicitudes_recibidas(request):
 		return render(request, 'SISCOSS/maestro/solictud_recibida.html', {'solicitud': solicitud})
 	else:
 		return redirect('Despacho')
+
+#Ver solicitudes Maestro | Encargado | Proyeccion social | Institucion
+@login_required
+def ver_solicitud(request):
+	current_user = request.user
+	if current_user.type == "MAESTRO":
+		m = MaestroPropio.objects.get(usuario=current_user.id)
+		f = Facultad.objects.get(id=m.facultad.id)
+		c = Carrera.objects.get(id=m.carrera.id)
+		solicitud = Solicitud.objects.filter(estado_soli="PENDIENTE", facultad_soli_id=f.id, carrera_soli_id=c.id)
+		return render(request, 'SISCOSS/maestro/solictud_recibida.html', {'solicitud': solicitud})
+
+	elif current_user.type == "ENCARGADO_FACU":
+		e = EncargadoPropio.objects.get(usuario=current_user.id)
+		f = Facultad.objects.get(id=e.facultad.id)
+		facu_nombre = f.nombre_facu
+		carrera = Carrera.objects.filter(facultad_carrera=f.id)
+		solicitud = Solicitud.objects.filter(facultad_soli_id=f.id)
+
+		if request.method == 'POST':
+			buscar = request.POST['buscar']
+
+			if buscar:
+				c = Carrera.objects.get(id=buscar)
+				carrera_nombre = c.nombre_carrera
+				match = Solicitud.objects.filter(Q(carrera_soli=buscar, facultad_soli=f.id))
+				if match:
+					return render(request, 'SISCOSS/encargado/solicitudes.html', {'match': match, 'carrera': carrera, 'carrera_nombre': carrera_nombre})
+				else:
+					messages.error(request, 'No hay solicitudes para la carrera ' + carrera_nombre)
+			else:
+				return HttpResponseRedirect('/ver_solicitud/')
+		return render(request, 'SISCOSS/encargado/solicitudes.html', {'solicitud': solicitud, 'carrera': carrera, 'facu_nombre': facu_nombre})
+
+	elif current_user.type == "PROYECCION_SOC":
+		solicitud = Solicitud.objects.all()
+		facultad = Facultad.objects.all()
+
+		if request.method == 'POST':
+			buscar = request.POST['buscar']
+
+			if buscar:
+				f = Facultad.objects.get(id=buscar)
+				facu_nombre = f.nombre_facu
+				match = Solicitud.objects.filter(Q(facultad_soli=buscar))
+				if match:
+					return render(request, 'SISCOSS/proyeccion/solicitudes.html', {'match': match, 'facultad': facultad, 'facu_nombre': facu_nombre})
+				else:
+					messages.error(request, 'No hay solicitudes para la facultad ' + facu_nombre)
+			else:
+				return HttpResponseRedirect('/ver_solicitud/')
+		return render(request, 'SISCOSS/proyeccion/solicitudes.html', {'solicitud': solicitud, 'facultad': facultad})
+
+	elif current_user.type == "INSTITUCION":
+		ins = InstitucionPropio.objects.get(usurio=current_user.id)
+		solicitud = Solicitud.objects.filter(institucion=ins.id)
+		return render(request, 'SISCOSS/institucion/solicitudes.html', {'solicitud': solicitud})
+
+	else:
+		redirect('Despacho')
+
 
 @login_required
 def solicitudes_encargado(request):

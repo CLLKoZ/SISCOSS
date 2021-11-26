@@ -43,9 +43,9 @@ def despachador(request):
         elif current_user.type == "ESTUDIANTE":
             return render(request, "SISCOSS/estudiante/solicitudes.html")
         elif current_user.type == "ENCARGADO_FACU":
-            return render(request, "SISCOSS/encargado/solicitudes.html")
+            return redirect('VerSolicitud')
         elif current_user.type == "PROYECCION_SOC":
-            return render(request, "SISCOSS/proyeccion/solicitudes.html")
+            return redirect('VerSolicitud')
 
 class ProyeccionUserCreate(CreateView):
     model = MiUsuario

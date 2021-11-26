@@ -15,4 +15,5 @@ urlpatterns = [
     path('ver_soli_facultad/', views.ver_soli_facultad, name='VerSoliFacultad'),
     path('encargado/solicitudes/', views.solicitudes_encargado, name='SolicitudesEncargado'),
     #path('crear_maestro/', views.MaestroCrear.as_view(), name="MaestroCrear"),
+    path('ver_solicitud/', views.ver_solicitud, name='VerSolicitud')
 ]
