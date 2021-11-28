@@ -1,0 +1,29 @@
+{% extends 'SISCOSS/base.html' %}
+{% block title %}SISCOSS - Servicio Social{% endblock %}
+
+{% block content %}
+{% load widget_tweaks %}
+{% load static %}
+<div class="container">
+    <h2 style="text-align: center;">Crear Servicio Social</h2>
+
+    <div class="form-group">
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.horas_alumno.id_for_label }}">{{ form.horas_alumno.label }}</label>
+                <div class="">{{ form.horas_alumno }}</div>
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="{{ form.cantidad_alumnos.id_for_label }}">{{ form.cantidad_alumnos.label }}</label>
+                <div class="">{{ form.cantidad_alumnos }}</div>
+            </div>
+            <br><br>
+            <div class="form-group">
+                <p style="text-align:center;"><button type="submit" class="btn_trns mid ctao esp">Guardar</button></p>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

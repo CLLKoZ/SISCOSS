@@ -24,13 +24,16 @@
                 {% if solicitud %}
                 {% for soli in solicitud %}
                 <tr>
-                    <th>{{ soli.institucion.usuario.nombre }}</th>
+                    <th>{{ soli.institucion.nombre_ins }}</th>
                     <th>{{ soli.facultad_soli }}</th>
                     <th>{{ soli.carrera_soli }}</th>
                     <td>{{ soli.tipo_servi_soli.nombre_servi }}</td>
                     <td>{{ soli.fecha_realizacion }}</td>
                     <td>{{ soli.estado_soli }}</td>
-
+                    <td>
+                        <a href="{% url 'CrearServicio' soli.id %}" class="btn_trns mid ctao esp" style="text-align:center; text-decoration: none; padding-top: 7px;">Aprobar <i class="fas fa-check"></i></a>
+                        <a href="{% url 'RechazarSolicitud' soli.id %}" class="btn btn-sm btn-dark">Rechazar <i class="far fa-times-circle"></i></a>
+                    </td>
                 </tr>
                 {% endfor %}
                 {% else %}

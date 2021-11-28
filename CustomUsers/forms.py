@@ -68,7 +68,7 @@ class UserCustomInsForm(forms.ModelForm):
 
         labels = {
             'username':'Nombre de Usuario',
-            'nombre':'Nombre de la institución',
+            'nombre':'Nombre del encargado',
             'email':'Correo Electronico',
             'telefono':'Numero de Telefono',
         }

@@ -118,13 +118,51 @@ class InstitucionForm(forms.ModelForm):
 		model = InstitucionPropio
 
 		fields = [
+			'nombre_ins',
 			'ubicacion',
 		]
 
 		labels = {
-			'ubicacion': 'Direccion de la institución',
+			'nombre_ins': 'Nombre de la institucion: ',
+			'ubicacion': 'Ubicacion: ',
 		}
 
 		widgets = {
+			'nombre_ins': forms.TextInput(attrs={'class': 'form-control'}),
 			'ubicacion': forms.TextInput(attrs={'class': 'form-control'}),
+		}
+
+class ServicioSocialForm(forms.ModelForm):
+	class Meta:
+		model = ServicioSocial
+
+		fields = [
+			'horas_alumno',
+			'cantidad_alumnos',
+		]
+
+		labels = {
+			'horas_alumno': 'Horas por alumno: ',
+			'cantidad_alumnos': 'Cantidad de alumnos asignados: ',
+		}
+
+		widgets = {
+			'horas_alumno': forms.NumberInput(attrs={'class': 'form-control'}),
+			'cantidad_alumnos': forms.NumberInput(attrs={'class': 'form-control'}),
+		}
+
+class RechazoForm(forms.ModelForm):
+	class Meta:
+		model = Solicitud
+
+		fields = [
+			'comentario',
+		]
+
+		labels = {
+			'comentario': 'Comentario por rechazo: ',
+		}
+
+		widgets = {
+			'comentario': forms.Textarea(attrs={'class': 'form-control'}),
 		}

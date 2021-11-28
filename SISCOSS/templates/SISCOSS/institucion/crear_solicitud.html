@@ -1,0 +1,73 @@
+{% extends "SISCOSS/base.html" %}
+{% block title %}SISCOSS - Solicitud{% endblock %}
+
+{% block content %}
+{% load widget_tweaks %}
+{% load static %}
+	<div class="container">
+		<h2 style="text-align: center;">Solicitar servicio social</h2>
+
+		<div class="form-group">
+			<form method="post" id="formSolicitud" style="margin-top: 50px" data-carrera-url="{% url 'ajax_cargar_carrera' %}" data-tipo-url="{% url 'ajax_cargar_tipo' %}" novalidate>
+				{% csrf_token %}
+				<div class="form-group">
+					<label for="{{ form.facultad_soli.id_for_label }}">{{ form.facultad_soli.label }}</label>
+					<div class="">{{ form.facultad_soli }}</div>
+				</div>
+				<br>
+				<div class="form-group">
+					<label for="{{ form.carrera_soliid_for_label }}">{{ form.carrera_soli.label }}</label>
+					<div class="">{{ form.carrera_soli }}</div>
+				</div>
+				<div class="form-group">
+					<label for="{{ form.tipo_servi_soli.id_for_label }}">{{ form.tipo_servi_soli.label }}</label>
+					<div class="">{{ form.tipo_servi_soli }}</div>
+				</div>
+				<br>
+				<br>
+				<div class="form-group">
+					<p style="text-align:center;"><button type="submit" class="btn_trns mid ctao esp">Guardar</button></p>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<script src="{% static 'SISCOSS/js/bootstrap.bundle.js' %}"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	<script>
+		$("#id_facultad_soli").change(function(){
+			const url = $("#formSolicitud").attr("data-carrera-url")
+			const facultadId = $(this).val();
+
+			$.ajax({
+				url: url,
+				data: {
+					'facultad_soli': facultadId
+				},
+				success: function(data){
+					$("#id_carrera_soli").html(data);
+				}
+			});
+		});
+
+		$("#id_carrera_soli").change(function(){
+			$('#formSolicitud').submit();
+			const url = $("#formSolicitud").attr("data-tipo-url")
+			const carreraId = $(this).val();
+
+			$.ajax({
+				url: url,
+				data: {
+					'carrera_soli': carreraId
+				},
+				success: function(data){
+					$("#id_tipo_servi_soli").html(data);
+					if (data.success){
+						$("#id_tipo_servi_soli").load(" #id_tipo_servi_soli");
+					}
+				}
+			});
+		});
+	</script>
+{% endblock %}

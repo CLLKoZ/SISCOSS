@@ -56,7 +56,7 @@
 					<tbody>
 					{% for soli in match %}
 					<tr>
-						<th>{{ soli.institucion.usuario.nombre }}</th>
+						<th>{{ soli.institucion.nombre_ins }}</th>
 						<th>{{ soli.facultad_soli }}</th>
                         <th>{{ soli.carrera_soli }}</th>
 						<td>{{ soli.tipo_servi_soli.nombre_servi }}</td>
@@ -81,7 +81,7 @@
 					<tbody>
 					{% for soli in solicitud %}
 					<tr>
-						<th>{{ soli.institucion.usuario.nombre }}</th>
+						<th>{{ soli.institucion.nombre_ins }}</th>
 						<th>{{ soli.facultad_soli }}</th>
                         <th>{{ soli.carrera_soli }}</th>
 						<td>{{ soli.tipo_servi_soli.nombre_servi }}</td>

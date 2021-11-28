@@ -1,0 +1,34 @@
+{% extends "SISCOSS/base.html" %}
+{% load static %}
+
+{% block title %}SISCOSS - Estado de Solicitud{% endblock %}
+
+{% block content %}
+{% load widget_tweaks %}
+	<div class="container">
+            <h2 class="text-center">Solicitudes realizadas</h2>
+				<table class="table py-5">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">Institucion</th>
+							<th scope="col">Facultad</th>
+                            <th scope="col">Carrera</th>
+							<th scope="col">Tipo de servicio</th>
+							<th scope="col">Fecha de realizacion</th>
+							<th scope="col">Estado</th>
+						</tr>
+					</thead>
+					<tbody>
+					{% for soli in solicitud %}
+					<tr>
+						<th>{{ soli.institucion.nombre_ins }}</th>
+						<th>{{ soli.facultad_soli }}</th>
+                        <th>{{ soli.carrera_soli }}</th>
+						<td>{{ soli.tipo_servi_soli.nombre_servi }}</td>
+						<td>{{ soli.fecha_realizacion }}</td>
+						<td>{{ soli.estado_soli }}</td>
+					</tr>
+                    {% endfor %}
+		</div>
+	</div>
+{% endblock %}

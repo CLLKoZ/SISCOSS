@@ -1,0 +1,27 @@
+{% extends 'SISCOSS/base.html' %}
+{% block title %}SISCOSS - Servicio Social{% endblock %}
+
+{% block content %}
+{% load widget_tweaks %}
+{% load static %}
+<div class="container">
+    <h2 style="text-align: center;">¿Quiere rechazar la solicitud?</h2>
+
+    <div class="form-group">
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.comentario.id_for_label }}">{{ form.comentario.label }}</label>
+                <div class="">{{ form.comentario }}</div>
+            </div>
+            <br>
+            <br><br>
+            <div class="form-group">
+                <p style="text-align:center;"><button type="submit" class="btn_trns mid ctao esp">Rechazar</button></p>
+                <br>
+                <p style="text-align:center;"><a href="{% url 'VerSolicitud' %}" class="btn_trns mid ctao esp" style="text-decoration: none; padding-top: 7px;">Cancelar</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

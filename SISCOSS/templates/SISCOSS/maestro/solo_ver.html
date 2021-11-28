@@ -1,0 +1,45 @@
+{% extends "SISCOSS/base.html" %}
+{% block title %}SISCOSS - Login{% endblock %}
+
+{% block content %}
+{% load widget_tweaks %}
+{% load static %}
+	<div class="container">
+		<h2 style="text-align: center;">Solicitudes de Carrera</h2>
+
+		<div>
+            <table class="table py-5">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Institucion</th>
+                    <th scope="col">Facultad</th>
+                    <th scope="col">Carrera</th>
+                    <th scope="col">Tipo de servicio</th>
+                    <th scope="col">Fecha de realizacion</th>
+                    <th scope="col">Estado</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if solicitud %}
+                {% for soli in solicitud %}
+                <tr>
+                    <th>{{ soli.institucion.nombre_ins }}</th>
+                    <th>{{ soli.facultad_soli }}</th>
+                    <th>{{ soli.carrera_soli }}</th>
+                    <td>{{ soli.tipo_servi_soli.nombre_servi }}</td>
+                    <td>{{ soli.fecha_realizacion }}</td>
+                    <td>{{ soli.estado_soli }}</td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <div class="alert alert-danger" role="alert">                
+                    No hay registros de solicitudes para mostrar                               	
+                </div>
+                {% endif %}
+                </tbody>
+            </table>
+            </div>
+            <a type="button" class="btn btn-sm btn-dark" href="{% url 'Inicio'%}">Regresar</a>
+        </div>
+    </div>
+{% endblock %}

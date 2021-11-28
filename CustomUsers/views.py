@@ -37,15 +37,17 @@ def despachador(request):
         return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
     else:
         if current_user.type == "MAESTRO":
-            return redirect('SolicitudesMaestro')
+            return redirect('VerSolicitud')
         elif current_user.type == "INSTITUCION":
-            return render(request, "SolicitudesEncargado")
+            return redirect('VerSolicitud')
         elif current_user.type == "ESTUDIANTE":
             return render(request, "SISCOSS/estudiante/solicitudes.html")
         elif current_user.type == "ENCARGADO_FACU":
             return redirect('VerSolicitud')
         elif current_user.type == "PROYECCION_SOC":
             return redirect('VerSolicitud')
+        else:
+            return redirect('Inicio')
 
 class ProyeccionUserCreate(CreateView):
     model = MiUsuario

@@ -1,26 +1,31 @@
-	{% extends "SISCOSS/base.html" %}
-	{% load static %}
+{% extends "SISCOSS/base.html" %}
+{% load static %}
 
-	{% block title %}SISCOSS - Inicio{% endblock %}
+{% block title %}SISCOSS - Inicio{% endblock %}
 
-	{% block content %}
-	<style>
-		body{
-			overflow-y: hidden;
-		}
-	</style>
-	<h2 style="text-align:center; padding-top: 10px;">Inicio</h2>
-	<div class="row tama disable">
-        <a href="{% url 'EstadoSolicitud' %}" class="btn md ctao bttn disp1"><p class="tal">Ver todas las solicitudes</p></a>
-        <a href="{% url 'VerSoliFacultad' %}" class="btn md ctao bttn away"><p class="tal">Ver solicitudes encargado de facultad</p></a>
-        <a href="{% url 'Solicitud' %}" class="btn md ctao bttn away disp3"><p class="tal">Realizar una solicitud</p></a>
-    </div>
-
-    <div class="row tama">
-        <a href="{% url 'SolicitudesRecibidas' %}" class="md ctao bttn disp1" style="text-decoration: none;"><p class="tal">Ver solicitudes recibidas</p></a>
-        <a href="{% url 'ver_estado_soli' %}" class="btn md ctao bttn away"><p class="tal">Verificar el estado de mi solicitud</p></a>
-        <a href="{% url 'login' %}" class="btn md ctao bttn away disp3"><p class="tal">Iniciar Sesion</p></a>
-    </div>
-	<script src="{% static 'SISCOSS/js/bootstrap.bundle.js' %}"></script>
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	{% endblock %}
+{% block content %}
+<h2 style="text-align:center; padding-top: 10px;">Inicio</h2>
+<div class="container">
+	<br>
+	<br>
+	<h4>Introduccion:</h4>
+	<p>SISCOSS es un sistema para solicitar y llevar el seguimiento de servicio social.</p>
+	<br>
+	<br>
+	<h4>Como Institucion:</h4>
+	<p>Usted prodrá enviar solicitudes de servicio social, las cuales pueden ser aceptadas o rechazadas.</p>
+	<p>Cuando una Solicitud es aceptada puede ver si esta pendiente o aun no ha iniciado.</p>
+	<br>
+	<br>
+	<h4>Como Encargado de facultad:</h4>
+	<p>Usted prodrá ver las solicitudes realizadas para toda la facultad, pudiendo filtrar por carrera las solicitudes.</p>
+	<p>Ademas de poder crear perfiles de maestros con toda su informacion correspondiente.</p>
+	<br>
+	<br>
+	<h4>Como Proyección social:</h4>
+	<p>Usted prodrá ver las solicitudes realizadas para toda la facultad, pudiendo filtrar por facultad las solicitudes.</p>
+	<p>Ademas de poder crear perfiles de encargados de facultad con toda su informacion correspondiente.</p>
+</div>
+<script src="{% static 'SISCOSS/js/bootstrap.bundle.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% endblock %}

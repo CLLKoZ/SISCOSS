@@ -10,6 +10,8 @@
 	<link rel="stylesheet" href="{% static 'SISCOSS/css/estilos_basicos.css' %}">
 	<link rel="stylesheet" href="{% static 'SISCOSS/css/Buttom-style.css' %}">
 	<link rel="stylesheet" href="{% static 'SISCOSS/css/inicio.css' %}">
+	<link rel="stylesheet" href="{% static 'SISCOSS/css/sidebar.css' %}">
+	<link rel="stylesheet" href="{% static 'SISCOSS/fontawesome/css/all.css' %}">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,800" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
@@ -21,11 +23,50 @@
 		</a>
 		<div class="logo_container"><h1>SIS<span>COSS</span></h1></div>
 		<ul class="navigation">
-			<a href="{% url 'Inicio' %}"><li>Inicio</li></a>
+			{% if user.is_authenticated %}
+				<h5 style="padding-top: 25px; color: white; user-select: none;">{{ user.nombre }}</h5>
+				<a href="{% url 'logout' %}" style="margin-top: 0px; text-decoration: none;"><li>Cerrar Sesión</li></a>
+			{% else %}
+				<a href="{% url 'login' %}"><li>Iniciar Sesion</li></a>
+				<a href="{% url 'InstitucionReg' %}"><li>Registrar mi empresa</li></a>
+			{% endif %}
         </ul>
 	</div>
 </header>
 <body>
+	{% if user.is_authenticated %}
+		<input type="checkbox" id="check">
+		<label for="check">
+			<i class="fas fa-bars" id="barras"></i>
+			<i class="fas fa-times" id="cancel"></i>
+		</label>
+		<div class="sidebar">
+			<header></header>
+			<ul>
+				{% if user.type == "MAESTRO" %}
+					<li><a href="{% url 'VerSolicitud' %}"><i class="fas fa-eye"></i> Solicitudes</a></li>
+					<li><a href="{% url 'SoloVer' %}"><i class="fas fa-eye"></i> Todas la Solicitudes</a></li>
+					<li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+				{% elif user.type == "INSTITUCION" %}
+					<li><a href="{% url 'VerSolicitud' %}"><i class="fas fa-eye"></i> Solicitudes</a></li>
+					<li><a href="{% url 'CrearSolicitud' %}"><i class="fas fa-eye"></i> Hacer Solicitud</a></li>
+					<li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+				{% elif user.type == "PROYECCION_SOC" %}
+					<li><a href="{% url 'VerSolicitud' %}"><i class="fas fa-eye"></i> Solicitudes</a></li>
+					<li><a href="{% url 'EncargadoReg' %}"><i class="fas fa-eye"></i> Registrar encargado de facultad</a></li>
+					<li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+				{% elif user.type == "ENCARGADO_FACU" %}
+					<li><a href="{% url 'VerSolicitud' %}"><i class="fas fa-eye"></i> Solicitudes</a></li>
+					<li><a href="{% url 'VerSolicitud' %}"><i class="fas fa-eye"></i> Servicio social</a></li>
+					<li><a href="{% url 'MaestroReg' %}"><i class="fas fa-user-plus"></i> Crear Maestro</a></li>
+					<li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+				{% elif user.is_admin %}
+					<li><a href="{% url 'ProyeccionReg' %}"><i class="fas fa-user-plus"></i> Crear Proyeccion Social</a></li>
+					<li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+				{% endif %}
+			</ul>
+		</div>
+	{% endif %}
 <!--Contenido que cambiará-->
 	<div class="container-fluid">
 		{% block content %}

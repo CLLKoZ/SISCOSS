@@ -71,6 +71,7 @@ class EstudiantePropio(models.Model):
 
 class InstitucionPropio(models.Model):
 	usuario = models.OneToOneField(MiUsuario, on_delete=CASCADE)
+	nombre_ins = models.CharField(max_length=50, blank=False, default="")
 	ubicacion = models.TextField(max_length=255, default="None")
 
 class EncargadoPropio(models.Model):
@@ -95,8 +96,8 @@ class ServicioSocial(models.Model):
 	cantidad_alumnos = models.IntegerField()
 	duracion_horas = models.IntegerField()
 	fecha_inicio = models.DateField(auto_now=True)
-	fecha_fin = models.DateField()
-	estado_servicio = models.CharField(_('EstadoServicio'), max_length=50, choices=EstadosServicios.choices, default=EstadoServicios.NO_INICIADO)
+	fecha_fin = models.DateField(null=True)
+	estado_servicio = models.CharField(_('EstadoServicio'), max_length=50, choices=EstadosServicios.choices, default=EstadosServicios.NO_INICIADO)
 
 	def save(self, *args, **kwargs):
 		cant_a = self.cantidad_alumnos
@@ -107,7 +108,7 @@ class ServicioSocial(models.Model):
 class ServicioAlumno(models.Model):
 	servicio_social = models.ForeignKey('ServicioSocial', on_delete=CASCADE)
 	alumno = models.ForeignKey('EstudiantePropio', on_delete=CASCADE)
-	observacion = models.CharField(blank=True)
+	observacion = models.CharField(max_length=255 ,blank=True)
 
 class RegistroServicioDiario(models.Model):
 	servicio_alumno = models.ForeignKey('ServicioAlumno', on_delete=CASCADE)
@@ -115,4 +116,3 @@ class RegistroServicioDiario(models.Model):
 	fecha_dia = models.DateField(auto_now=True)
 	descripcion_actividad = models.CharField(max_length=255)
 	nombre_encargado = models.CharField(max_length=50)
-	firma = models.ImageField()
